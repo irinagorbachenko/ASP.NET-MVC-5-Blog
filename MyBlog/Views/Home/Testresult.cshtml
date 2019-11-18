@@ -1,0 +1,23 @@
+﻿
+@model MyBlog.Models.Form
+
+@{
+    ViewBag.Title = "Testresult";
+
+}
+@{Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>Ваши данные:</h2>
+<h4> Имя:</h4>
+<p>@Model.Name</p>
+<h4> Почта:</h4>
+<p>@Model.Email</p>
+<h4>Как давно вы на нашем сайте?</h4>
+<p>@Model.Answer1</p>
+<h4>Полезны ли были наши статьи?</h4>
+<p>@Model.Answer2</p>
+
+
+
+
+<h2>Спасибо за оставленый отзыв!</h2>

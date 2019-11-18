@@ -1,0 +1,111 @@
+﻿@*@model IEnumerable<MyBlog.Entities.Models.Post>*@
+@model MyBlog.Entities.Models.ViewModels.PostsPoll
+
+@{
+    /**/
+    @Styles.Render("~/Content/Site.css")
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+<div class="post_name1">
+    <h2>Posts</h2>
+
+    <p>
+        @Html.ActionLink("Create New", "Create")
+    </p>
+</div>
+
+
+<div id="radio">
+    <p><strong>@Model.Polls.Question</strong></p>
+    @foreach (var item in Model.Polls.PollOptions)
+    {
+        @Html.RadioButton(@Model.Polls.Question, @item.Answer) @item.Answer
+        <br />
+    }
+
+    <input type="button" value="Голосовать" onclick="LoadData()" />
+</div>
+
+<div id="result">
+    <p><strong>Результаты  <br />  Голосования</strong></p>
+
+    @foreach (var item in Model.Polls.PollOptions)
+    {
+        <p> @item.Answer   @item.Votes  голосов</p>
+   
+
+
+    }
+</div>
+
+@foreach (var item in Model.Posts)
+{
+
+    <div class="post_section">
+        <span class="bottom"></span>
+        <h2>@Html.DisplayFor(modelItem => item.Title)</h2>
+
+        <strong>Date:</strong>@Html.DisplayFor(modelItem => item.PostDate) |
+        <strong>Author:</strong>@Html.DisplayFor(modelItem => item.AuthorName)
+
+        <p>@item.PostBody.ToString().Substring(0, 200)</p>
+
+        <div class="cleaner"></div>
+
+        <div>
+            @Html.ActionLink("Details", "Details", new { id = item.PostId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.PostId })
+        </div>
+    </div>
+}
+
+
+@section Scripts
+{
+    <script type="text/javascript">
+        function LoadData() {
+
+            var elemDiv = document.getElementById("radio");
+            var result = document.getElementById("result");
+            var elements = elemDiv.getElementsByTagName('input');
+            var radio;
+
+            for (var i = 0; i < elements.length; i++) {
+                if (elements[i].checked) {
+                    radio = elements[i].value
+                }
+            }
+            if (radio) {
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("Index","Posts")',
+                    dataType: 'string',
+                    data: { answer: radio},
+                    success: function () { 
+                        alert("ok");
+                       
+                    },
+                    error: function (ex) {
+                        //console.dir(ex.responseText);
+                        
+                        $("body").html = ex.responseText;
+                        var hl = document.getElementsByTagName("body");
+                        hl[0].innerHTML = ex.responseText;
+                        $('#radio').hide();
+                        $('#result').show();
+                        //console.dir(hl[0]);
+                        
+                       
+                    }
+                });
+            }
+        }
+    </script>
+}
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/bootstrap")
+
+

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<MyBlog.Entities.Models.Comment>
+@Styles.Render("~/Content/Site.css")
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Comments</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@foreach (var item in Model)
+{
+    <div id="comment_section">
+        <ol class="comments first_level">
+            <li>
+                <div class="comment_box commentbox1">
+
+
+                    <div class="comment_text">
+                        <div class="comment_author">
+                            <div class="comment_author">
+                                @Html.DisplayFor(modelItem => item.CommentAuthorName)<span class="date">@Html.DisplayFor(modelItem => item.CommentDate)</span><span class="date">@Html.DisplayFor(modelItem => item.PostID)</span>
+                            </div>
+                            <p> @Html.DisplayFor(modelItem => item.CommentBody)</p>
+                        </div>
+                        <div class="cleaner"></div>
+                        <td>
+                            @Html.ActionLink("Details", "Details", new { id = item.CommentId }) |
+                            @Html.ActionLink("Delete", "Delete", new { id = item.CommentId })
+                        </td>
+                    </div>
+                </div>
+            </li>
+        </ol>
+    </div>
+}
+
+
+
+
+
+
+
+
+

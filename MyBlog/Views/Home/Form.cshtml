@@ -1,0 +1,67 @@
+﻿@model MyBlog.Models.Form
+
+@{
+    ViewBag.Title = "Form";
+}
+
+@{
+    string[] choice = new string[] { "Менее года", "Более года", "Более 3 лет" };
+}
+
+
+
+@using (Html.BeginForm("Index", "Home/Form"))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Анкета</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="checkbox">
+            <p>Как давно вы на нашем сайте?</p>
+            @for (var i = 0; i <= choice.Length - 1; i++)
+            {
+                @Html.CheckBox("Answer1", false) @choice[i]<br />
+            }
+        </div>
+
+        <div class="radio">
+            <p>Полезны ли были наши статьи?</p>
+            @Html.RadioButton("Answer2", "Да")
+            <span>Да</span> <br />
+            @Html.RadioButton("Answer2", "Нет")
+            <span>нет</span> <br />
+            @Html.RadioButton("Answer2", "Не понял")
+            <span>Не понял</span>
+
+          
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Отправить данные" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
